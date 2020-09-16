@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,33 +15,34 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('backend.category.update');
+    return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('company/login', 'Auth\LoginController@showCompanyLoginForm')->name('company.login');
+Route::post('company/login', 'Auth\LoginController@companyLogin');
 
-Route::get('/admin', function () {
-    return view('backend.index');
-})->name('admin');
-Route::get('t', function () {
-    return view('backend.admin.create');
+Route::get('company/register', 'Auth\RegisterController@showCompanyRegistrationForm')->name('company.register');
+Route::post('company/register', 'Auth\RegisterController@companyRegistration');
+
+
+Route::middleware('auth')->prefix('home')->name('home.')->group(function () {
+    Route::get('/', 'HomeController@index');
+    Route::get('/edit', 'UserController@edit')->name('edit');
+    Route::post('/update', 'UserController@update')->name('update');
 });
-// Route::get('/show','AdminController@ss')->name('login');
-// Route::post('/login','AdminController@login');
-// Route::get('/out','AdminController@logout')->name('out');
 
-/*
- * Categories Route*/
-// Route::prefix('categories')->name('category.')->group(function () {
-//     Route::get('/', 'CategoryController@index')->name('index')->middleware('auth');
-//     Route::get('/create', 'CategoryController@create')->name('create')->middleware('auth');
-//     Route::post('/store', 'CategoryController@store')->name('store')->middleware('auth');
-//     Route::get('/edit/{edit}', 'CategoryController@edit')->name('edit')->middleware('auth');
-//     Route::post('/update/{edit}', 'CategoryController@update')->name('update')->middleware('auth');
-//     Route::get('/delete/{category}', 'CategoryController@destroy')->name('delete')->middleware('auth');
-// });
+
+Route::middleware('auth:company')->prefix('company')->name('company.')->group(function () {
+    Route::get('/', 'CompanyController@index')->name('index');
+
+    Route::prefix('jobs')->name('jobs.')->group(function () {
+        Route::get('index', 'JobController@index')->name('index');
+        Route::get('create', 'JobController@create')->name('create');
+        Route::post('store', 'JobController@store')->name('store');
+        Route::get('edit/{id}', 'JobController@edit')->name('edit');
+        Route::put('edit/{id}', 'JobController@update')->name('update');
+        Route::delete('delete/{id}', 'JobController@destroy')->name('delete');
+    });
+});

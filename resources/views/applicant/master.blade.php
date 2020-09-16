@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    @include('backend.partials._head')
+    @include('applicant.partials._head')
     <style type="text/css">
         /*.slimScrollDiv{
       position: relative; overflow: hidden; width: auto; height: 100%;
@@ -13,12 +13,12 @@
 <body class="hold-transition skin-green sidebar-mini">
     <div class="wrapper">
 
-        @include('backend.partials._header')
+        @include('applicant.partials._header')
 
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
-            @include('backend.partials._sidebar')
+            @include('applicant.partials._sidebar')
             <!-- /.sidebar -->
         </aside>
 
@@ -26,9 +26,9 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <!-- Main content -->
-            @include('flash')
+
             @yield('main_content')
-            @include('backend.partials._footer')
+            @include('applicant.partials._footer')
             <!-- /.content -->
         </div>
 
