@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\User;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,7 +15,10 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('backend.index');
+        // dd(Company::find(auth()->id())->jobs);
+        return view('backend.index', [
+            'jobs' => Company::find(auth()->id())->jobs
+        ]);
     }
 
     /**
@@ -81,5 +85,19 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         //
+    }
+    public function accept($jobid, $userid)
+    {
+        if (User::find($userid)->jobs()->updateExistingPivot($jobid, ['status' => 1])) {
+            return back()->with('success', 'Successfully Accepted');
+        }
+        return back()->with('error', 'Something Went Wrong!');
+    }
+    public function reject($jobid, $userid)
+    {
+        if (User::find($userid)->jobs()->updateExistingPivot($jobid, ['status' => 2])) {
+            return back()->with('success', 'Successfully Rejected');
+        }
+        return back()->with('error', 'Something Went Wrong!');
     }
 }

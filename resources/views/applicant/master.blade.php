@@ -26,7 +26,7 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <!-- Main content -->
-
+            @include('flash')
             @yield('main_content')
             @include('applicant.partials._footer')
             <!-- /.content -->

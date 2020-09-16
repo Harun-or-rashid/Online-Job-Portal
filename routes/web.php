@@ -29,13 +29,19 @@ Route::post('company/register', 'Auth\RegisterController@companyRegistration');
 
 Route::middleware('auth')->prefix('home')->name('home.')->group(function () {
     Route::get('/', 'HomeController@index');
-    Route::get('/edit', 'UserController@edit')->name('edit');
-    Route::post('/update', 'UserController@update')->name('update');
+    Route::get('edit', 'UserController@edit')->name('edit');
+    Route::post('update', 'UserController@update')->name('update');
+    Route::prefix('jobs')->name('jobs.')->group(function () {
+        Route::get('apply/{id}', 'HomeController@apply')->name('apply');
+        Route::get('cancel/{id}', 'HomeController@cancelApply')->name('cancel');
+    });
 });
 
 
 Route::middleware('auth:company')->prefix('company')->name('company.')->group(function () {
     Route::get('/', 'CompanyController@index')->name('index');
+    Route::get('accept/{jobid}/{userid}', 'CompanyController@accept')->name('accept');
+    Route::get('reject/{jobid}/{userid}', 'CompanyController@reject')->name('reject');
 
     Route::prefix('jobs')->name('jobs.')->group(function () {
         Route::get('index', 'JobController@index')->name('index');

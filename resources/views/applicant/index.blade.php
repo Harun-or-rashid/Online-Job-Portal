@@ -1,5 +1,6 @@
 @extends('applicant.master')
 
+
 @section('custom_css_plugins')
 <!-- Ionicons -->
 <link rel="stylesheet" href="{!! asset('assets/backend/bower_components/Ionicons/css/ionicons.min.css') !!}">
@@ -21,16 +22,22 @@
 </section>
 
 
+
 <section class="content">
     @if (!$jobs->isEmpty())
     @foreach ($jobs as $job)
     <div class="panel panel-info" style="margin: 20px 20px;">
         <!-- Default panel contents -->
-        <div class="panel-heading">Job Title: {{$job->title}}</div>
+        <div class="panel-heading" style="color: #2B882F;">
+            <h4>
+                Job Title: {{$job->title}}
+            </h4>
+        </div>
         <div class="panel-body" style="padding: 10px 30px; text-align: justify;">
+            <h3>{{$job->company->business_name}}</h3>
             <h3>Job Description</h3>
             <p>
-                {{$job->description}}
+                {!! $job->description !!}
             </p>
             <h4>Salary : <strong>{{$job->salary}}</strong></h4>
             <h4>Location : <strong>{{$job->location}}</strong></h4>
@@ -40,9 +47,31 @@
         <!-- List group -->
         <ul class="list-group">
             <li class="list-group-item">
-                <button class="btn btn-primary">
+                @if (auth()->user()->jobs->contains($job->id))
+                @if (auth()->user()->jobs->find($job->id)->pivot->status==1)
+                <a class="btn btn-success" disabled>
+                    Accepted
+                </a>
+                <a href="{{route('home.jobs.cancel',$job->id)}}" class="btn btn-danger">
+                    Cancel
+                </a>
+                @elseif(auth()->user()->jobs->find($job->id)->pivot->status==2)
+                <a class="btn btn-warning" disabled>
+                    Rejected
+                </a>
+                @else
+                <a class="btn btn-info" disabled>
+                    Pending...
+                </a>
+                <a href="{{route('home.jobs.cancel',$job->id)}}" class="btn btn-danger">
+                    Cancel
+                </a>
+                @endif
+                @else
+                <a href="{{route('home.jobs.apply',$job->id)}}" class="btn btn-primary">
                     Apply
-                </button>
+                </a>
+                @endif
             </li>
         </ul>
     </div>
