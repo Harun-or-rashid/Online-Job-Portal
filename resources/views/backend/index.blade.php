@@ -28,9 +28,9 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>{{$data['totalApply']}}</h3>
 
-                    <p>New Orders</p>
+                    <p>Total Applicant</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-bag"></i>
@@ -43,9 +43,9 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                    <h3>{{$data['accepted']}}</h3>
 
-                    <p>Bounce Rate</p>
+                    <p>Accepted</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -58,9 +58,9 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>44</h3>
+                    <h3>{{$data['pending']}}</h3>
 
-                    <p>User Registrations</p>
+                    <p>Pending</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -73,9 +73,9 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{$data['rejected']}}</h3>
 
-                    <p>Unique Visitors</p>
+                    <p>Rejected</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -105,7 +105,7 @@
                             <img src="
                             @if (empty($user->image)) {{asset('assets/backend/dist/img/user2-160x160.jpg')}} @else {{asset('users\images\\' . $user->image)}} @endif
                             " alt="" width="105" height="105" style="border-radius: 50%;">
-                            <p style="margin: 10px auto;">{{$user->skills}}</p>
+                            <p style="margin: 10px auto;"><strong>Skills:</strong> &nbsp;{{$user->skills}}</p>
                         </div>
                         <div class="text-center">
                             <a href="{{asset('users/resume/' . $user->resume)}}" target="_blank"

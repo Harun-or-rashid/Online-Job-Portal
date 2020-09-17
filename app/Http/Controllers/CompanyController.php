@@ -15,9 +15,31 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        $totalApply = 0;
+        $accepted = 0;
+        $rejected = 0;
+        $pending = 0;
         // dd(Company::find(auth()->id())->jobs);
+        foreach (Company::find(auth()->id())->jobs as $job) {
+
+            $totalApply += $job->users->count();
+            foreach ($job->users as $user) {
+                if ($user->pivot->status == 0) {
+                    $pending += 1;
+                } elseif ($user->pivot->status == 1) {
+                    $accepted += 1;
+                } else {
+                    $rejected += 1;
+                }
+            }
+        }
+        $data['totalApply'] = $totalApply;
+        $data['accepted'] = $accepted;
+        $data['rejected'] = $rejected;
+        $data['pending'] = $pending;
         return view('backend.index', [
-            'jobs' => Company::find(auth()->id())->jobs
+            'jobs' => Company::find(auth()->id())->jobs,
+            'data' => $data
         ]);
     }
 
