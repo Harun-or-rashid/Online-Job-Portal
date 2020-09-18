@@ -37,8 +37,10 @@
                 <form class="login100-form validate-form" method="post" action="{{url('company/login')}}">
                     @csrf
                     <span class="login100-form-title p-b-43">
-                        Login to continue
+                        Login as Company
                     </span>
+                    <a class="btn btn-info mb-5" href="{{ route('login') }}">Login as Applicant</a>
+
 
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">

@@ -38,7 +38,7 @@
                     action="{{url('company/register')}}">
                     @csrf
                     <span class="login100-form-title p-b-30">
-                        Register to continue
+                        Register Your  Company
                     </span>
 
                     <div class="wrap-input100 validate-input" style="height: 69px;">
